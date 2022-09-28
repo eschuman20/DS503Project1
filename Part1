@@ -1,0 +1,86 @@
+import com.opencsv.CSVWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.LinkedList;
+import java.util.Random;
+
+public class CSVExample {
+
+    public static void main(String[] args) throws IOException {
+        CSVWriter csvWriter = new CSVWriter(new FileWriter("customers.csv"));
+        LinkedList<String[]> customers = generateCustomers();
+        csvWriter.writeAll(customers);
+        csvWriter.close();
+
+        CSVWriter csvWriter2 = new CSVWriter(new FileWriter("transactions.csv"));
+        LinkedList<String[]> transactions = generateTransactions();
+        csvWriter2.writeAll(transactions);
+        csvWriter2.close();
+    }
+
+    public static LinkedList<String[]> generateCustomers(){
+        LinkedList<String[]> listOfCustomers = new LinkedList<String[]>();
+        Random random = new Random();
+        for (int i = 1; i <= 50000; i++){
+            String[] aCustomer = new String[6];
+            aCustomer[0] = Integer.toString(i);
+            aCustomer[1] = pickName();
+            aCustomer[2] = Integer.toString(random.nextInt(10, 71));
+            aCustomer[3] = pickGender();
+            aCustomer[4] = Integer.toString(random.nextInt(1, 11));
+            aCustomer[5] = Float.toString(random.nextFloat(100, 10001));
+            listOfCustomers.add(aCustomer);
+        } return listOfCustomers;
+    }
+
+    public static LinkedList<String[]> generateTransactions(){
+        LinkedList<String[]> listOfTransactions = new LinkedList<String[]>();
+        Random random = new Random();
+        for (int i = 1; i <= 5000000; i++){
+            String[] aTransaction = new String[5];
+            aTransaction[0] = Integer.toString(i);
+            aTransaction[1] = Integer.toString(random.nextInt(1, 50001)) ;
+            aTransaction[2] = Float.toString(random.nextFloat(10, 1001));
+            aTransaction[3] = Integer.toString(random.nextInt(1, 11));
+            aTransaction[4] = pickDesc();
+            listOfTransactions.add(aTransaction);
+        } return listOfTransactions;
+    }
+
+    public static String pickGender(){
+        Random random = new Random();
+        int i = random.nextInt(0,2);
+        if (i == 1){
+            return "Male";
+        }
+        else{
+            return "Female";
+        }
+    }
+
+    public static String pickName(){
+        Random random = new Random();
+        StringBuilder name = new StringBuilder(new String());
+        int i = random.nextInt(10,21);
+        for (int j = 1; j <= i; j++){
+            String c = ",";
+            while (c.equals(",")) {
+                c = String.valueOf((char) (random.nextInt(95) + 32));
+            }
+            name.append(c);
+        }return name.toString();
+    }
+
+    public static String pickDesc(){
+        Random random = new Random();
+        StringBuilder desc = new StringBuilder(new String());
+        int i = random.nextInt(20,51);
+        for (int j = 1; j <= i; j++){
+            String c = ",";
+            while (c.equals(",")) {
+                c = String.valueOf((char) (random.nextInt(95) + 32));
+            }
+            desc.append(c);
+        }return desc.toString();
+    }
+}
